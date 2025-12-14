@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="logo.ico" type="image/x-icon">
+
+<title>Zona de Experimentos</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+
+:root{
+--verde:#7fcf9b;
+--verde-hover:#5fbf87;
+--verde-suave:#eef7f1;
+--texto:#2f3e34;
+--blanco:#ffffff;
+--borde:#dfeee6;
+--sombra:0 12px 35px rgba(0,0,0,.08)
+}
+
+body{
+font-family:"Segoe UI",Arial,sans-serif;
+background:linear-gradient(180deg,#f7fbf9,#edf6f0);
+color:var(--texto)
+}
+
+
+.navbar{
+position:fixed;
+top:0;left:0;width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px 40px;
+background:rgba(255,255,255,.95);
+backdrop-filter:blur(12px);
+border-bottom:1px solid var(--borde);
+box-shadow:0 4px 20px rgba(0,0,0,.05);
+z-index:100
+}
+.logo{
+display:flex;
+align-items:center;
+gap:14px
+}
+.logo img{width:52px}
+.logo h1{
+font-size:1.4rem;
+color:#2f6f4f
+}
+.navbar ul{
+display:flex;
+list-style:none;
+gap:28px
+}
+.navbar a{
+text-decoration:none;
+color:#45695a;
+font-weight:500;
+transition:.3s
+}
+.navbar a:hover{color:var(--verde-hover)}
+
+
+.content{
+max-width:1200px;
+margin:auto;
+padding:130px 30px 80px
+}
+
+
+.header{
+background:var(--blanco);
+padding:32px 40px;
+border-radius:26px;
+box-shadow:var(--sombra);
+text-align:center;
+margin-bottom:80px;
+border:1px solid var(--borde)
+}
+.header h2{
+font-size:2.6rem;
+color:#2f6f4f
+}
+.header p{
+margin-top:12px;
+font-size:1.1rem;
+color:#5f7f6d
+}
+
+
+.objetivo{
+margin-top:28px;
+padding:24px;
+background:var(--verde-suave);
+border-radius:20px;
+border-left:6px solid var(--verde);
+text-align:left
+}
+.objetivo h4{
+color:#2f6f4f;
+margin-bottom:12px;
+font-size:1.25rem
+}
+.objetivo p{
+color:#45695a;
+font-size:1.05rem;
+line-height:1.7
+}
+
+
+.section{
+margin-bottom:90px
+}
+.section h3{
+font-size:2rem;
+color:#2f6f4f;
+margin-bottom:25px;
+padding-left:14px;
+border-left:6px solid var(--verde)
+}
+
+
+.slider-wrapper{position:relative}
+.slider{
+display:flex;
+gap:26px;
+padding:20px 10px
+}
+.scroll{
+overflow-x:auto;
+scroll-behavior:smooth
+}
+.scroll::-webkit-scrollbar{display:none}
+
+
+.book{
+min-width:240px;
+background:var(--blanco);
+border-radius:22px;
+padding:16px;
+border:1px solid var(--borde);
+box-shadow:var(--sombra);
+cursor:pointer;
+transition:.35s;
+text-align:center
+}
+.book:hover{
+transform:translateY(-8px);
+box-shadow:0 20px 40px rgba(0,0,0,.12)
+}
+.book img{
+width:100%;
+height:160px;
+object-fit:cover;
+border-radius:16px
+}
+.book-title{
+margin-top:12px;
+font-size:1.05rem;
+font-weight:600;
+color:#2f6f4f
+}
+
+
+.arrow{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:rgba(255,255,255,.95);
+border:none;
+color:#2f6f4f;
+font-size:26px;
+padding:10px 15px;
+border-radius:50%;
+cursor:pointer;
+box-shadow:var(--sombra);
+transition:.3s;
+z-index:10
+}
+.arrow:hover{
+background:var(--verde);
+color:white
+}
+.arrow.left{left:-15px}
+.arrow.right{right:-15px}
+
+
+footer{
+text-align:center;
+padding:26px;
+background:var(--blanco);
+border-top:1px solid var(--borde);
+color:#6c8f7d;
+box-shadow:0 -6px 20px rgba(0,0,0,.04)
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+  <div class="logo">
+    <img src="logo.png" alt="Logo Laboratorio Virtual">
+    <h1>Laboratorio Virtual</h1>
+  </div>
+  <ul>
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="juego.html">Juego</a></li>
+  </ul>
+</nav>
+
+
+<div class="content">
+
+<div class="header">
+<h2>Zona de Experimentos</h2>
+<p>Explora, observa y comprende la ciencia de forma práctica</p>
+
+<div class="objetivo">
+<h4>Objetivo del Laboratorio Virtual</h4>
+<p>
+Presentar y explicar diversos experimentos científicos mediante recursos visuales
+e interactivos, con el fin de facilitar la comprensión de conceptos de química y
+ciencias naturales, fomentando la curiosidad, la observación y el pensamiento crítico
+en los estudiantes.
+</p>
+</div>
+</div>
+
+<div class="section">
+<h3>Formulación y Productos</h3>
+<div class="slider-wrapper">
+<button class="arrow left" onclick="slide('s1',-1)">&#10094;</button>
+<div class="slider scroll" id="s1"></div>
+<button class="arrow right" onclick="slide('s1',1)">&#10095;</button>
+</div>
+</div>
+
+<div class="section">
+<h3>Reacciones Químicas</h3>
+<div class="slider-wrapper">
+<button class="arrow left" onclick="slide('s2',-1)">&#10094;</button>
+<div class="slider scroll" id="s2"></div>
+<button class="arrow right" onclick="slide('s2',1)">&#10095;</button>
+</div>
+</div>
+
+<div class="section">
+<h3>Experimentos Visuales</h3>
+<div class="slider" id="s3"></div>
+</div>
+
+<div class="section">
+<h3>Ciencia Divertida</h3>
+<div class="slider" id="s4"></div>
+</div>
+
+</div>
+
+<footer>© 2025 Laboratorio Virtual · 26 Experimentos</footer>
+
+<script>
+function slide(id,dir){
+  document.getElementById(id).scrollLeft += dir * 700;
+}
+
+const experiments=[
+"Crema hidratante para piel y manos",
+"Velas decorativas",
+"Ambiental líquido",
+"Néctar de mango",
+"Dulce de leche",
+"Esencia de vainilla",
+"Menticol",
+"Gel para cabello",
+"Desinfectante bactericida",
+"Mentol",
+"Detergente en polvo",
+"Quita esmalte",
+
+"Explosión de color",
+"La serpiente del faraón",
+"Fuego invisible",
+"Volcán de bicarbonato y vinagre",
+"Tinta invisible con limón",
+"Batería hecha con limón",
+
+"Botella azul (reacción redox)",
+"Lámpara de lava",
+"Arcoíris químico",
+"Volcán casero",
+
+"Leche mágica",
+"Pasta de dientes de elefante",
+"Cristales de sal",
+"Agua que camina"
+];
+
+const images=[ 
+"https://th.bing.com/th/id/R.9ac411791aa9f45067f6bac315e433e4?rik=NABLHHHnnUVaLQ&pid=ImgRaw&r=0",
+"https://i.pinimg.com/originals/05/e4/d5/05e4d52c6f8c27565b267d8f89e41cfb.jpg",
+"https://tse1.mm.bing.net/th/id/OIP.cJc8DMfZ6GCi5dU0ntsNzwHaE8?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://www.estamosenlinea.com.ve/wp-content/uploads/2022/04/Nectar-de-mango.jpg",
+"https://th.bing.com/th/id/R.49f60db94a58d0c350ed5e6c98957833?rik=VTWhZfBnfyzlKA&pid=ImgRaw&r=0",
+"https://tse1.explicit.bing.net/th/id/OIP.OjIcHXUsI8rCTCRqzEdFnQHaE8?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://www.fybeca.com/on/demandware.static/-/Sites-masterCatalog_FybecaEcuador/default/dwa1b6962a/images/large/100217832-GEL-ANTIBACTERIAL-MENTICOL-NEUTRO-200-ML-FRASCO.jpg",
+"https://th.bing.com/th/id/R.b73945e35447f33b766e9d82463b4e94?rik=myJIWkgQevZ86Q&pid=ImgRaw&r=0",
+"https://1.bp.blogspot.com/-m4amrrI-_Xs/XoUJUxAJwvI/AAAAAAAAJXA/K05Uc1nejVUoHFaUIcMlPb4d4mjD2AVtwCLcBGAsYHQ/s1600/DES6.jpg",
+"https://http2.mlstatic.com/D_NQ_NP_665129-MLU74376822250_022024-O.webp",
+"https://th.bing.com/th/id/R.40b906f0537452d1f42d91238f573ecd?rik=1LctUsLA3ov2MQ&pid=ImgRaw&r=0",
+"https://exafm.com/u/fotografias/m/2024/3/27/f768x1-10627_10754_41.png",
+
+"https://i.pinimg.com/originals/87/3f/94/873f94120a2eadcba10ceacb63664db9.jpg",
+"https://th.bing.com/th/id/R.54c2731edbc7ad7c45fb1fd75ada9c5f?rik=nvAm%2bKSohjcTSQ&pid=ImgRaw&r=0",
+"https://th.bing.com/th/id/R.a421b3f7165e143b41716f2eca3dc37d?rik=3R17%2fZ9rNOyqYQ&pid=ImgRaw&r=0",
+"https://th.bing.com/th/id/R.66f9555c0f6bd0d7c23844c6d8c4065a?rik=3I%2bk5gcsOLEisQ&pid=ImgRaw&r=0",
+"https://tse2.mm.bing.net/th/id/OIP.UnS8SGncmRvJPhU8lD-5ZgHaFj?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://bigmakerslab.com/wp-content/uploads/2023/09/20230810_170332-Big-Makers-Lab-864x1536.jpg",
+
+"https://0701.static.prezi.com/preview/v2/tay6grhdbx3d3wunyw52r3w3ot6jc3sachvcdoaizecfr3dnitcq_3_0.png",
+"https://i.ytimg.com/vi/9Yqu9fjAtzg/maxresdefault.jpg",
+"https://tse4.mm.bing.net/th/id/OIP.v-YqKo4zrtT15UUAi2_U7AHaHa?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://tse1.mm.bing.net/th/id/OIP.FWHfm8RPGXg0UWJs767DsAHaEK?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+
+"https://coolscienceexperimentshq.com/wp-content/uploads/2015/09/Magic-Milk-Science-Experiment-Step-3-768x432.jpg",
+"https://1.bp.blogspot.com/-edfW5SHzDXw/UDiUEMvqSnI/AAAAAAAAAJ0/84rGOqBDabg/s1600/pasta+dientes+para+elefantes.JPG",
+"https://tse3.mm.bing.net/th/id/OIP.nn17XTdRZeYP3XeRCLW8_QAAAA?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://th.bing.com/th/id/R.006f4065ff22780cfde578959c60a050?rik=oF9WoJ9%2fCn09Gw&pid=ImgRaw&r=0"
+];
+
+const sections=[
+"s1","s1","s1","s1","s1","s1","s1","s1","s1","s1","s1","s1",
+"s2","s2","s2","s2","s2","s2",
+"s3","s3","s3","s3",
+"s4","s4","s4","s4"
+];
+
+experiments.forEach((name,i)=>{
+document.getElementById(sections[i]).innerHTML += `
+<div class="book" onclick="location.href='exp1.html?id=${i+1}'">
+<img src="${images[i]}" alt="${name}">
+<div class="book-title">${i+1}. ${name}</div>
+</div>`;
+});
+</script>
+
+</body>
+</html>

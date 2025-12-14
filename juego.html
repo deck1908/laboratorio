@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="logo.ico" type="image/x-icon">
+<title>Actividades – Laboratorio Virtual</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+--verde:#7fcf9b;
+--verde-hover:#5fbf87;
+--verde-suave:#eef7f1;
+--texto:#2f3e34;
+--blanco:#ffffff;
+--borde:#dfeee6;
+--sombra:0 12px 35px rgba(0,0,0,.08)
+}
+
+body{
+font-family:"Segoe UI",Arial,sans-serif;
+background:linear-gradient(180deg,#f7fbf9,#edf6f0);
+color:var(--texto)
+}
+
+.navbar{
+position:fixed;
+top:0;left:0;width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px 40px;
+background:rgba(255,255,255,.95);
+backdrop-filter:blur(12px);
+border-bottom:1px solid var(--borde);
+box-shadow:0 4px 20px rgba(0,0,0,.05);
+z-index:100
+}
+.logo{
+display:flex;
+align-items:center;
+gap:14px
+}
+.logo img{width:52px}
+.logo h1{font-size:1.4rem;color:#2f6f4f}
+
+.navbar ul{
+display:flex;
+list-style:none;
+gap:28px
+}
+.navbar a{
+text-decoration:none;
+color:#45695a;
+font-weight:500
+}
+.navbar a:hover{color:var(--verde-hover)}
+
+.content{
+max-width:1200px;
+margin:auto;
+padding:130px 30px 80px
+}
+
+.header{
+background:var(--blanco);
+padding:32px 40px;
+border-radius:26px;
+box-shadow:var(--sombra);
+text-align:center;
+margin-bottom:60px;
+border:1px solid var(--borde)
+}
+.header h2{font-size:2.6rem;color:#2f6f4f}
+.header p{margin-top:10px;color:#5f7f6d}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:26px
+}
+.card{
+background:var(--blanco);
+border-radius:22px;
+border:1px solid var(--borde);
+box-shadow:var(--sombra);
+cursor:pointer;
+transition:.35s;
+overflow:hidden
+}
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 20px 40px rgba(0,0,0,.12)
+}
+.card.locked{
+opacity:.45;
+pointer-events:none
+}
+.card img{
+width:100%;
+height:160px;
+object-fit:cover
+}
+.card h4{
+padding:14px;
+text-align:center;
+color:#2f6f4f;
+font-size:1.05rem
+}
+
+#juegoArea{
+margin-top:50px;
+background:var(--blanco);
+padding:35px;
+border-radius:26px;
+border:1px solid var(--borde);
+box-shadow:var(--sombra);
+display:none
+}
+#juegoArea h3{color:#2f6f4f}
+#juegoArea p{margin-top:10px;color:#45695a}
+
+input{
+width:100%;
+padding:12px;
+border-radius:14px;
+border:1px solid var(--borde);
+margin-top:16px
+}
+
+.btn{
+background:var(--verde);
+color:white;
+border:none;
+border-radius:16px;
+padding:12px 26px;
+margin-top:20px;
+cursor:pointer
+}
+.btn:hover{background:var(--verde-hover)}
+
+.resultado{margin-top:14px;font-weight:600}
+.total{text-align:center;margin-top:30px;font-size:1.2rem;color:#2f6f4f}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+  <div class="logo">
+    <img src="logo.png" alt="Logo Laboratorio Virtual">
+    <h1>Laboratorio Virtual</h1>
+  </div>
+  <ul>
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="juego.html">Juego</a></li>
+  </ul>
+</nav>
+<div class="content">
+
+<div class="header">
+<h2>Actividades Evaluables</h2>
+<p>26 experimentos · Evaluación automática</p>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div id="juegoArea"></div>
+
+<p class="total" id="total"></p>
+
+<div style="text-align:center">
+<button class="btn" onclick="exportarPDF()">📄 Descargar PDF</button>
+</div>
+
+</div>
+
+<script>
+const { jsPDF } = window.jspdf;
+
+const nombres = [
+"Crema hidratante","Velas decorativas","Ambiental líquido","Néctar de mango",
+"Dulce de leche","Esencia de vainilla","Menticol","Gel para cabello",
+"Desinfectante","Mentol","Detergente","Quita esmalte",
+"Explosión de color","Serpiente del faraón","Fuego invisible",
+"Volcán químico","Tinta invisible","Batería de limón",
+"Botella azul","Lámpara de lava","Arcoíris químico","Volcán casero",
+"Leche mágica","Pasta de elefante","Cristales","Agua que camina"
+];
+
+const imagenes = [
+"https://th.bing.com/th/id/R.9ac411791aa9f45067f6bac315e433e4?rik=NABLHHHnnUVaLQ&pid=ImgRaw&r=0",
+"https://i.pinimg.com/originals/05/e4/d5/05e4d52c6f8c27565b267d8f89e41cfb.jpg",
+"https://tse1.mm.bing.net/th/id/OIP.cJc8DMfZ6GCi5dU0ntsNzwHaE8?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://www.estamosenlinea.com.ve/wp-content/uploads/2022/04/Nectar-de-mango.jpg",
+"https://th.bing.com/th/id/R.49f60db94a58d0c350ed5e6c98957833?rik=VTWhZfBnfyzlKA&pid=ImgRaw&r=0",
+"https://tse1.explicit.bing.net/th/id/OIP.OjIcHXUsI8rCTCRqzEdFnQHaE8?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://www.fybeca.com/on/demandware.static/-/Sites-masterCatalog_FybecaEcuador/default/dwa1b6962a/images/large/100217832-GEL-ANTIBACTERIAL-MENTICOL-NEUTRO-200-ML-FRASCO.jpg",
+"https://th.bing.com/th/id/R.b73945e35447f33b766e9d82463b4e94?rik=myJIWkgQevZ86Q&pid=ImgRaw&r=0",
+"https://1.bp.blogspot.com/-m4amrrI-_Xs/XoUJUxAJwvI/AAAAAAAAJXA/K05Uc1nejVUoHFaUIcMlPb4d4mjD2AVtwCLcBGAsYHQ/s1600/DES6.jpg",
+"https://http2.mlstatic.com/D_NQ_NP_665129-MLU74376822250_022024-O.webp",
+"https://th.bing.com/th/id/R.40b906f0537452d1f42d91238f573ecd?rik=1LctUsLA3ov2MQ&pid=ImgRaw&r=0",
+"https://exafm.com/u/fotografias/m/2024/3/27/f768x1-10627_10754_41.png",
+
+"https://i.pinimg.com/originals/87/3f/94/873f94120a2eadcba10ceacb63664db9.jpg",
+"https://th.bing.com/th/id/R.54c2731edbc7ad7c45fb1fd75ada9c5f?rik=nvAm%2bKSohjcTSQ&pid=ImgRaw&r=0",
+"https://th.bing.com/th/id/R.a421b3f7165e143b41716f2eca3dc37d?rik=3R17%2fZ9rNOyqYQ&pid=ImgRaw&r=0",
+"https://th.bing.com/th/id/R.66f9555c0f6bd0d7c23844c6d8c4065a?rik=3I%2bk5gcsOLEisQ&pid=ImgRaw&r=0",
+"https://tse2.mm.bing.net/th/id/OIP.UnS8SGncmRvJPhU8lD-5ZgHaFj?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://bigmakerslab.com/wp-content/uploads/2023/09/20230810_170332-Big-Makers-Lab-864x1536.jpg",
+
+"https://0701.static.prezi.com/preview/v2/tay6grhdbx3d3wunyw52r3w3ot6jc3sachvcdoaizecfr3dnitcq_3_0.png",
+"https://i.ytimg.com/vi/9Yqu9fjAtzg/maxresdefault.jpg",
+"https://tse4.mm.bing.net/th/id/OIP.v-YqKo4zrtT15UUAi2_U7AHaHa?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://tse1.mm.bing.net/th/id/OIP.FWHfm8RPGXg0UWJs767DsAHaEK?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+
+"https://coolscienceexperimentshq.com/wp-content/uploads/2015/09/Magic-Milk-Science-Experiment-Step-3-768x432.jpg",
+"https://1.bp.blogspot.com/-edfW5SHzDXw/UDiUEMvqSnI/AAAAAAAAAJ0/84rGOqBDabg/s1600/pasta+dientes+para+elefantes.JPG",
+"https://tse3.mm.bing.net/th/id/OIP.nn17XTdRZeYP3XeRCLW8_QAAAA?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+"https://th.bing.com/th/id/R.006f4065ff22780cfde578959c60a050?rik=oF9WoJ9%2fCn09Gw&pid=ImgRaw&r=0"
+];
+
+let score=Number(localStorage.score||0);
+let done=JSON.parse(localStorage.done||"{}");
+
+const grid=document.getElementById("grid");
+const total=document.getElementById("total");
+
+nombres.forEach((n,i)=>{
+grid.innerHTML+=`
+<div class="card ${done[i]?'locked':''}" onclick="abrir(${i})">
+<img src="${imagenes[i]}">
+<h4>${i+1}. ${n}</h4>
+</div>`;
+});
+
+actualizar();
+
+function abrir(i){
+if(done[i])return;
+const area=document.getElementById("juegoArea");
+area.style.display="block";
+area.innerHTML=`
+<h3>${nombres[i]}</h3>
+<p>¿Qué elemento es clave en este experimento?</p>
+<input id="resp">
+<button class="btn" onclick="verificar(${i})">Responder</button>
+<div class="resultado" id="res"></div>
+`;
+window.scrollTo({top:area.offsetTop-20,behavior:"smooth"});
+}
+
+function verificar(i){
+if(document.getElementById("resp").value.trim().length>3){
+document.getElementById("res").innerText="✔ Correcto (+4)";
+score+=4;
+done[i]=true;
+guardar();
+setTimeout(()=>location.reload(),700);
+}else{
+document.getElementById("res").innerText="✘ Respuesta muy corta";
+}
+}
+
+function guardar(){
+localStorage.score=score;
+localStorage.done=JSON.stringify(done);
+}
+
+function actualizar(){
+total.innerText=`Puntaje: ${score} / 104`;
+}
+
+function exportarPDF(){
+const pdf=new jsPDF();
+pdf.text("Laboratorio Virtual – Resultados",20,20);
+pdf.text(`Puntaje final: ${score}/104`,20,35);
+let y=50;
+Object.keys(done).forEach(i=>{
+pdf.text(`✔ ${nombres[i]}`,20,y);
+y+=8;
+});
+pdf.save("resultados_laboratorio.pdf");
+}
+</script>
+
+</body>
+</html>

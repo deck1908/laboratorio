@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="logo.ico" type="image/x-icon">
+<title>Experimento</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+--verde:#7fcf9b;
+--verde-claro:#e9f7ef;
+--verde-hover:#5fbf87;
+--blanco:#ffffff;
+--gris:#f4f6f5;
+--texto:#2f3e34;
+--borde:#dfeee6;
+--sombra:0 10px 30px rgba(0,0,0,.08)
+}
+
+body{
+font-family:"Segoe UI",Arial,sans-serif;
+background:linear-gradient(180deg,#f7fbf9,#eef6f1);
+color:var(--texto)
+}
+
+.navbar{
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px 36px;
+position:fixed;
+top:0;
+z-index:50;
+background:rgba(255,255,255,.9);
+backdrop-filter:blur(12px);
+border-bottom:1px solid var(--borde);
+box-shadow:0 4px 20px rgba(0,0,0,.05)
+}
+.navbar h2{color:var(--verde)}
+.navbar ul{display:flex;gap:28px;list-style:none}
+.navbar a{
+color:#45695a;
+text-decoration:none;
+font-weight:500;
+transition:.3s
+}
+.navbar a:hover{color:var(--verde-hover)}
+
+.hero{
+margin-top:90px;
+min-height:260px;
+background:
+linear-gradient(120deg,rgba(127,207,155,.7),rgba(255,255,255,.9)),
+url("https://img.freepik.com/foto-gratis/laboratorio-cientifico-moderno_23-2149306124.jpg")
+center/cover;
+display:flex;
+align-items:center;
+justify-content:center
+}
+.hero h1{
+font-size:3rem;
+color:#245c3c;
+text-align:center;
+background:rgba(255,255,255,.85);
+padding:18px 36px;
+border-radius:18px;
+box-shadow:var(--sombra)
+}
+
+.content{
+max-width:1150px;
+margin:auto;
+padding:50px 22px 90px
+}
+
+.grid-2{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+gap:30px;
+margin-bottom:45px
+}
+.card{
+background:var(--blanco);
+padding:28px;
+border-radius:26px;
+border:1px solid var(--borde);
+box-shadow:var(--sombra);
+transition:.35s
+}
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 18px 40px rgba(0,0,0,.12)
+}
+.card h3{
+color:#2f6f4f;
+margin-bottom:14px;
+font-size:1.3rem
+}
+.card ul{padding-left:18px;line-height:1.7}
+
+#sustanciasBox ul li{
+margin-bottom:10px
+}
+.logo{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logo img{
+height:42px;      
+width:auto;       
+object-fit:contain;
+}
+
+.logo h1{
+font-size:1.35rem;
+color:var(--verde);
+}
+
+h2{
+color:#2f6f4f;
+font-size:2.1rem;
+margin-bottom:30px
+}
+
+.steps{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:28px
+}
+.step{
+background:linear-gradient(135deg,#ffffff,#f0faf4);
+padding:24px;
+border-radius:22px;
+border-left:6px solid var(--verde);
+line-height:1.65;
+box-shadow:var(--sombra);
+transition:.3s
+}
+.step:hover{
+transform:translateY(-5px);
+background:#ffffff
+}
+.step strong{color:#c0392b}
+
+footer{
+text-align:center;
+padding:25px;
+background:#ffffff;
+border-top:1px solid var(--borde);
+color:#6c8f7d;
+box-shadow:0 -6px 20px rgba(0,0,0,.04)
+}
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar">
+  <div class="logo">
+    <img src="logo.png" alt="Logo Laboratorio Virtual">
+    <h1>Laboratorio Virtual</h1>
+  </div>
+  <ul>
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="juego.html">Juego</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+<h1 id="titulo"></h1>
+</header>
+
+<div class="content">
+
+<div class="grid-2">
+<div class="card" id="formulaBox"></div>
+<div class="card" id="materialesBox"></div>
+</div>
+
+
+<div class="card" id="sustanciasBox"></div>
+
+<h2 style="text-align:center;margin:40px 0">Procedimiento</h2>
+<div class="steps" id="pasosBox"></div>
+
+</div>
+
+<footer>© 2025 Laboratorio Virtual</footer>
+
+<script>
+
+const experimentos={
+
+1:{
+titulo:"Crema hidratante para piel y manos",
+
+formula:[
+"Agua destilada: 60 ml",
+"Aceite vegetal: 30 ml",
+"Cera emulsificante: 10 g"
+],
+
+materiales:[
+"Vaso medidor",
+"Olla para baño maría",
+"Espátula",
+"Envase plástico"
+],
+
+sustancias:[
+{n:"Agua destilada", d:"Base acuosa de la crema"},
+{n:"Aceite vegetal", d:"Hidrata y suaviza la piel"},
+{n:"Cera emulsificante", d:"Permite unir agua y aceite"}
+],
+
+pasos:[
+"Calentar el agua y el aceite por separado.",
+"Mezclar lentamente ambas fases.",
+"Batir hasta obtener una crema homogénea.",
+"Envasar y dejar enfriar."
+]
+},
+
+2:{
+titulo:"Velas decorativas",
+formula:[
+"Parafina gris: 200 g",
+"Escarcha de colores",
+"Esencia aromática: 10 ml",
+"Colorante al gusto: 1 cc"
+],
+
+materiales:[
+"Balanza",
+"Reverbére",
+"Jeringuilla 10 cc",
+"Probeta 25 cc",
+"Espátula",
+"Adornos plásticos"
+],
+
+sustancias:[
+{n:"Parafina gel", d:"Base transparente"},
+{n:"Escarcha", d:"Aporta brillo"},
+{n:"Colorante", d:"Da tonalidad"},
+{n:"Aroma", d:"Perfuma la vela"}
+],
+
+pasos:[
+"Fundir una pequeña cantidad de parafina para impregnar la mecha.",
+"Derretir la parafina transparente y añadir colorante, escarcha y aroma.",
+"Verter la mezcla en el molde.",
+"Colocar la mecha en el centro y dejar solidificar."
+]
+},
+3:{
+titulo:"Ambiental Líquido",
+formula:[
+"Agua destilada: 1ltr",
+"Colorante: 2 cc.",
+"Preservante: 1 cc",
+"Emulsionante: 10 cc",
+"Aromas: 5 cc.",
+"Preservante de aromas: 5 cc"
+],
+
+materiales:[
+"Jarras de 2 ltr",
+"Vaso",
+"2 agitadores",
+"2 jeringuillas"
+],
+
+sustancias:[
+{n:"Agua destilada", d:"Solvente donde se diluyen las demás sustancias."},
+{n:"Colorante", d:"Sustancia vegetal que le da la tonalidad al producto."},
+{n:"Preservante", d:"Para que no se dañe el producto."},
+{n:"Emulsionante", d:"Sustancia que sirve para homogenizar el aroma con el agua."},
+{n:"Aromas", d:"Aceite natural de aromas."},
+{n:"Preservante de aroma", d:"Para que fije el aroma, solución alcohólica."}
+],
+
+pasos:[
+"Colocar en la jarra el agua con el colorante y el preservante con fuerte agitación.",
+"En el vaso poner el emulsionante con los aromas y el preservante de aroma, luego verter el producto del vaso a la jarra con agitación quedando listo.",
+
+]
+},
+4:{
+titulo:"Nectar de mango",
+formula:[
+"Mango: 15(100g)",
+"Hipoclorito de sodio para 1 GAL. de agua: 40 cc.",
+"Preservante: 0.5g",
+"Glucosa: 75 g para obtener 13°B"
+],
+
+materiales:[
+"Lavacara",
+"Cedazo",
+"Hornilla",
+"Olla enlozada",
+"Vaso de precipitación de 1 lt.",
+"Licuadora",
+"Guantes de goma",
+"Cuchara de madera"
+],
+
+sustancias:[
+{n:"Hipoclorito de sodio", d:"Sustancia clorada, elimina los gérmenes de la fruta."},
+{n:"Preservante", d:"Benzoato de sodio, para conservar el producto y no se dañe."},
+{n:"Glucosa", d:"Para dejar con dulce el producto. Se lo usa solo en caso de que haga falta llegar a los 13°B."}
+],
+
+pasos:[
+"En una lavacara se coloca la fruta sana y madura, sin que se note blanda en el caso del mango (pasado de madurez se fermenta), en excelente estado.",
+"Se lava la fruta con solución de hipoclorito de sodio, se enjuaga con agua potable dos veces.", 
+"Se deja agua hervida para ablandar la cáscara, se retira la cáscara con cuchillo, se licua la pulpa y se lleva a ebullición en la olla enlozada hasta que espese (aproximadamente 30 minutos).",
+"Se le añade la glucosa para completar los 13°B (aproximadamente 75 g. de azúcar).",
+"Se le agrega el preservante 0.5 g de benzoato de sodio; se calienta por 20 minutos más.", 
+"Completada la hora queda listo para envasar y llevarlo a enfriamiento."
+
+
+]
+},
+5:{
+titulo:"Dulce de leche",
+
+formula:[
+"Bicarbonato de sodio: 0.72 g",
+"Hipoclorito de sodio: 50 cc",
+"Harina de trigo: 20 g",
+"Harina de maíz: 10 g",
+"Preservante: 0.5 g",
+"Azúcar: 200 g",
+"Leche: 1 litro"
+],
+
+materiales:[
+"Vasija de 2 litros",
+"Cuchara de madera",
+"Lona para filtrar"
+],
+
+sustancias:[
+{n:"Bicarbonato de sodio", d:"Mejora la acidez de la leche"},
+{n:"Azúcar", d:"Aporta el sabor dulce al producto"},
+{n:"Harina de trigo", d:"Ayuda a espesar el dulce"},
+{n:"Harina de maíz", d:"Contribuye a la consistencia del producto"},
+{n:"Preservante", d:"Evita que el producto se dañe con el tiempo"},
+{n:"Hipoclorito de sodio", d:"Sirve para limpiar el área y los materiales"}
+],
+
+pasos:[
+"Limpiar correctamente el mesón y los materiales con 50 cc de hipoclorito de sodio diluidos en 1 litro de agua.",
+"Colocar la leche en la vasija y filtrarla con la lona.",
+"Controlar la acidez de la leche agregando bicarbonato de sodio.",
+"Añadir el azúcar junto con la harina de trigo y la harina de maíz.",
+"Llevar la mezcla a ebullición y agitar constantemente durante 3 a 4 horas para concentrar el producto.",
+"Retirar del fuego y dejar enfriar hasta alcanzar una temperatura aproximada de 60 °C.",
+"Agregar el preservante con agitación hasta que quede completamente disuelto.",
+"Envasar el producto, tapar cuando esté a temperatura ambiente y dejar listo para el consumo."
+]
+},
+6:{
+titulo:"Esencia de vainilla",
+
+formula:[
+"Alcohol potable: 40 cc",
+"Vainilla: 1.5 g",
+"Curin: 3 g",
+"Agua destilada: 210 cc",
+"Gluconato: 1.5 g",
+"Colorante caramelo: 0.5 g"
+],
+
+materiales:[
+"2 jarras de 500 cc",
+"2 agitadores"
+],
+
+sustancias:[
+{n:"Alcohol potable", d:"Solvente donde se diluyen la vainilla y el curin"},
+{n:"Vainilla", d:"Cristales que proporcionan el sabor característico"},
+{n:"Curin", d:"Se utiliza para fijar el aroma"},
+{n:"Agua destilada", d:"Solvente del gluconato y vehículo del producto"},
+{n:"Gluconato", d:"Espesante de la esencia"},
+{n:"Colorante caramelo", d:"Proporciona el color característico de la esencia de vainilla"}
+],
+
+pasos:[
+"En una jarra, diluir la vainilla y el curin en el alcohol potable con fuerte agitación.",
+"En la segunda jarra, colocar el agua destilada y añadir el colorante caramelo hasta su completa dilución.",
+"Agregar de forma continua el gluconato a la segunda jarra mientras se agita intensamente.",
+"Continuar la agitación hasta obtener una mezcla espesa y homogénea.",
+"Incorporar la dilución de la primera jarra poco a poco hasta que toda la solución quede uniforme.",
+"La esencia obtenida queda lista para su uso."
+]
+},
+7:{
+titulo:"Menticol",
+
+formula:[
+"Etanol QP: 190 cc",
+"Mentol: 1.5 g",
+"Alcanfor: 2 g",
+"Agua destilada: 60 cc",
+"Salimetol: 0.5 cc",
+"Eucalipto: 2 cc",
+"Colorante vegetal: 1 cc"
+],
+
+materiales:[
+"Vaso de precipitación de 500 cc",
+"Agitador",
+"Gotero o jeringuilla"
+],
+
+sustancias:[
+{n:"Alcohol etanol QP", d:"Solvente para el mentol y el alcanfor"},
+{n:"Mentol", d:"Alcohol refrescante al contacto con la piel"},
+{n:"Alcanfor", d:"Sustancia aromática y refrescante"},
+{n:"Eucalipto", d:"Alcohol aromático con efecto refrescante"},
+{n:"Salimetol", d:"Aceite aromático refrescante"},
+{n:"Agua destilada", d:"Vehículo del producto"},
+{n:"Colorante vegetal", d:"Proporciona un color agradable al producto"}
+],
+
+pasos:[
+"Colocar el alcohol etanol QP en el vaso de precipitación.",
+"Agregar uno a uno el mentol y el alcanfor, agitando fuertemente hasta lograr su completa disolución.",
+"Una vez obtenida una solución homogénea, añadir el eucalipto con agitación constante.",
+"Agregar el salimetol y continuar la agitación.",
+"Finalmente, incorporar el colorante vegetal según la tonalidad deseada.",
+"Cuando la solución esté completamente uniforme, el producto queda listo para su uso."
+]
+},
+8:{
+titulo:"Gel para cabello",
+
+formula:[
+"Gluconato: 4 g",
+"Amina: 3 cc",
+"Amoniaco: 1 cc",
+"Colorante: 0.5 cc",
+"Aroma: 0.5 cc",
+"Preservante: 0.2 cc",
+"Agua destilada: 500 cc"
+],
+
+materiales:[
+"Jarra de 1 litro",
+"Agitador",
+"Jeringuilla de 2 cc"
+],
+
+sustancias:[
+{n:"Gluconato", d:"Reactivo que reacciona con la amina formando una pasta gelatinosa"},
+{n:"Amina", d:"Aumenta la viscosidad y da consistencia al gel"},
+{n:"Amoniaco", d:"Regula el pH del producto"},
+{n:"Colorante", d:"Da la tonalidad deseada al gel"},
+{n:"Aroma", d:"Proporciona un olor agradable"},
+{n:"Preservante", d:"Evita el deterioro del producto"},
+{n:"Agua destilada", d:"Solvente base del gel"}
+],
+
+pasos:[
+"Colocar el gluconato junto con el agua destilada en la jarra.",
+"Agitar fuertemente hasta disolver completamente el gluconato, durante aproximadamente 30 minutos (preferible usar batidora).",
+"Agregar el amoniaco y el preservante con agitación constante.",
+"Añadir el colorante poco a poco hasta obtener la tonalidad deseada.",
+"Incorporar la amina y agitar hasta que el producto aumente su espesor.",
+"Finalmente, agregar el aroma y mezclar hasta obtener un gel homogéneo.",
+"El gel queda listo para su uso."
+]
+},
+9:{
+titulo:"Desinfectante bactericida",
+
+formula:[
+"Aglutinante: 4 g",
+"Amoniaco: 5 cc",
+"Nonenol: 10 cc",
+"Colorante: 2 cc",
+"Preservante: 1 cc",
+"Fijador de esencia: 3 cc",
+"Esencia aromática: 2 cc",
+"Agua destilada: 500 cc"
+],
+
+materiales:[
+"Jarra plástica de 1 litro",
+"2 jeringuillas de 5 cc",
+"2 agitadores",
+"100 envases de 30 cc"
+],
+
+sustancias:[
+{n:"Aglutinante", d:"Sustancia espesante que aporta consistencia al producto"},
+{n:"Amoniaco", d:"Actúa como bactericida, germicida y fungicida"},
+{n:"Nonenol", d:"Tensoactivo que facilita la emulsión de la esencia"},
+{n:"Colorante", d:"Debe ser vegetal y acorde a la esencia utilizada"},
+{n:"Preservante", d:"Evita el deterioro del producto"},
+{n:"Fijador de esencia", d:"Permite que el aroma permanezca por más tiempo"},
+{n:"Esencia aromática", d:"Aporta el aroma característico al producto"},
+{n:"Agua destilada", d:"Evita alteraciones en la composición final"}
+],
+
+pasos:[
+"En la jarra plástica colocar el agua destilada junto con el aglutinante y agitar hasta que espese completamente (aproximadamente 20 minutos).",
+"Agregar el nonenol a la mezcla con agitación constante.",
+"En otro envase colocar el ácido y el amoniaco, disolverlos completamente.",
+"Añadir esta solución al colorante vegetal de acuerdo a la tonalidad deseada.",
+"Una vez que el colorante esté uniforme, mezclar con el fijador de esencia y la esencia aromática.",
+"Finalmente agregar esta mezcla a la jarra principal con agitación continua hasta que quede homogénea.",
+"El producto queda listo para ser envasado y utilizado."
+]
+},
+10:{
+titulo:"Mentol",
+
+formula:[
+"Vaselina sólida: 250 g",
+"Mentol: 2.5 g",
+"Alcanfor: 2.5 g",
+"Eucalipto: 2 cc",
+"Salimetilo: 0.5 g"
+],
+
+materiales:[
+"Estufa u hornilla eléctrica",
+"Vasija de metal",
+"Espátula o agitador"
+],
+
+sustancias:[
+{n:"Vaselina sólida", d:"Vehículo del mentol"},
+{n:"Mentol", d:"Alcohol cristalizado que produce sensación de frío"},
+{n:"Alcanfor", d:"Sustancia aromática de olor característico"},
+{n:"Eucalipto", d:"Alcohol aromático"},
+{n:"Salimetilo", d:"Aceite aromático fuerte"}
+],
+
+pasos:[
+"Colocar la vaselina en la vasija y calentarla hasta su completa dilución.",
+"Una vez fundida la vaselina, agregar los cristales de mentol y alcanfor con agitación constante hasta que se disuelvan por completo.",
+"Finalmente agregar el salimetilo y continuar agitando hasta obtener una mezcla homogénea.",
+"Dejar enfriar y envasar. El mentol queda listo para su uso."
+]
+},
+11:{
+titulo:"Detergente en polvo",
+
+formula:[
+"Carbonato: 145 g",
+"Silicato: 30 g",
+"Tripolifosfato: 30 g",
+"Sulfonato: 20 g",
+"Hidróxido de sodio: 15 g",
+"Esencia: 10 cc"
+],
+
+materiales:[
+"Jarra plástica de 1 kg",
+"Plato hondo",
+"Atomizador",
+"Fundas plásticas"
+],
+
+sustancias:[
+{n:"Carbonato", d:"Sustancia alcalina con acción limpiadora"},
+{n:"Silicato", d:"Ayuda a remover la suciedad y proteger las fibras"},
+{n:"Tripolifosfato", d:"Mejora la acción detergente"},
+{n:"Sulfonato", d:"Agente detergente principal"},
+{n:"Hidróxido de sodio", d:"Sustancia alcalina fuerte que potencia la limpieza"},
+{n:"Esencia", d:"Da aroma al detergente"}
+],
+
+pasos:[
+"Colocar el hidróxido de sodio en la jarra plástica con mucho cuidado y triturarlo hasta que quede completamente pulverizado.",
+"Agregar los polvos blancos (carbonato, silicato y tripolifosfato) y agitar fuertemente hasta obtener una mezcla homogénea.",
+"Añadir el sulfonato y continuar mezclando hasta integrar completamente.",
+"Finalmente agregar la esencia utilizando un atomizador y mezclar.",
+"El producto queda listo para ser envasado en fundas plásticas."
+]
+},
+12:{
+titulo:"Quita esmalte",
+
+formula:[
+"Aceto butil: 60 cc",
+"Glicol: 30 cc",
+"Alcohol industrial: 180 cc",
+"Aroma: 1 cc",
+"Glicerina: 1 cc"
+],
+
+materiales:[
+"Jarra plástica de 1 lt",
+"Jeringuilla de 2 cc",
+"Agitador",
+"Envases de 30 cc"
+],
+
+sustancias:[
+{n:"Aceto butil", d:"Solvente para lacas"},
+{n:"Glicol", d:"Solvente para esmalte"},
+{n:"Alcohol industrial", d:"Solvente para diluir los componentes"},
+{n:"Glicerina", d:"Humecta la uña y evita que se reseque"},
+{n:"Aroma", d:"Da un olor agradable al producto"}
+],
+
+pasos:[
+"Colocar el alcohol industrial en la jarra plástica.",
+"Añadir el aceto butil mientras se agita constantemente.",
+"Agregar el glicol con agitación continua hasta integrar completamente.",
+"Finalmente añadir el aroma con la jeringuilla y agitar fuertemente hasta obtener una mezcla homogénea.",
+"Envasar el producto y dejar listo para su uso."
+]
+},
+13:{
+titulo:"Explosión de color",
+
+formula:[
+"Agua oxigenada 30%: 40 cc",
+"Detergente líquido: 20 cc",
+"Colorante: c.s.p.",
+"Yoduro de sodio: 15 g"
+],
+
+materiales:[
+"Guantes de protección",
+"Vaso de precipitados",
+"Agitador",
+"Balanza",
+"Pliego de cartón",
+"Matraz de Erlenmeyer"
+],
+
+sustancias:[
+{n:"Agua oxigenada 30%", d:"Produce la reacción principal liberando oxígeno"},
+{n:"Detergente líquido", d:"Forma espuma y dispersa el color"},
+{n:"Colorante", d:"Permite visualizar la explosión de color"},
+{n:"Yoduro de sodio", d:"Catalizador que acelera la reacción"}
+],
+
+pasos:[
+"Colocarse los guantes antes de iniciar el experimento.",
+"Agregar el agua oxigenada en un vaso de precipitados.",
+"Añadir el detergente líquido y luego el colorante, agitando hasta mezclar bien.",
+"En otro recipiente disolver el yoduro de sodio agregando agua poco a poco.",
+"Colocar la primera mezcla en un matraz de Erlenmeyer.",
+"Poner un pliego de cartón sobre la superficie de trabajo y colocar el matraz encima.",
+"Agregar rápidamente la solución de yoduro de sodio al matraz.",
+"Retirarse inmediatamente para observar la explosión de color."
+],
+
+precauciones:[
+"El agua oxigenada al 30% es corrosiva y puede causar quemaduras.",
+"Manipular siempre con guantes y protección ocular.",
+"Realizar el experimento en un área ventilada y con supervisión."
+]
+},
+14:{
+titulo:"La serpiente del faraón",
+
+materiales:[
+"Recipiente metálico amplio y resistente",
+"Arena seca",
+"Alcohol como agente de combustión",
+"Utensilio pequeño para mezclar",
+"Espacio exterior, abierto y ventilado"
+],
+
+sustancias:[
+{n:"Azúcar en polvo", d:"Material que se carboniza y forma la estructura visible de la serpiente"},
+{n:"Bicarbonato sódico", d:"Libera gases al calentarse, permitiendo que la masa se expanda"}
+],
+
+pasos:[
+"Preparar una mezcla seca donde predomine el azúcar e incorporar una pequeña cantidad de bicarbonato, mezclando bien ambos componentes.",
+"Colocar una base de arena seca en un recipiente metálico resistente, la cual servirá como soporte y distribuidor del calor.",
+"Disponer la mezcla seca sobre la arena y asegurarse de que el alcohol esté presente como agente de combustión.",
+"Encender cuidadosamente el alcohol y observar cómo el azúcar se carboniza mientras el bicarbonato libera gases.",
+"La masa oscura se eleva y se expande lentamente, formando la característica serpiente porosa mientras dura la combustión."
+],
+
+precauciones:[
+"Realizar el experimento únicamente en un espacio exterior y bien ventilado.",
+"Mantener una distancia prudente durante la reacción.",
+"Contar con algún método para extinguir fuego cercano."
+]
+},
+15:{
+titulo:"Fuego invisible",
+
+formula:[
+"Alcohol etílico en gel: 50 cc",
+"Agua: 50 cc"
+],
+
+materiales:[
+"Guantes resistentes al calor",
+"Encendedor",
+"Bandeja segura resistente al calor"
+],
+
+sustancias:[
+{n:"Alcohol etílico 96%", d:"Sirve como combustible y produce la llama invisible al quemarse"},
+{n:"Agua", d:"Diluyente que hace la llama menos visible"}
+],
+
+pasos:[
+"Ponerse los guantes resistentes al calor antes de iniciar el experimento.",
+"Colocar una cantidad considerable de alcohol etílico en gel en el centro de la bandeja o recipiente resistente al calor.",
+"Añadir el agua alrededor del alcohol en gel sin cubrirlo completamente.",
+"Encender el encendedor y acercar la llama al borde del recipiente hasta que la mezcla se encienda.",
+"Para comprobar que la llama está encendida, enrollar un pedazo de papel y acercarlo cuidadosamente."
+],
+
+precauciones:[
+"No acercar la cara: la llama no se ve pero quema.",
+"No realizar el experimento cerca de objetos inflamables.",
+"Dejar enfriar completamente la bandeja o recipiente antes de manipularlo."
+]
+},
+16:{
+titulo:"Volcán de bicarbonato y vinagre",
+
+formula:[
+"Bicarbonato de sodio: 12 g",
+"Vinagre: 60–100 ml",
+"Colorante: 2–3 gotas (opcional)"
+],
+
+materiales:[
+"Vaso o recipiente de 250–400 ml"
+],
+
+sustancias:[
+{n:"Bicarbonato de sodio", d:"Base que reacciona con el ácido"},
+{n:"Vinagre (ácido acético)", d:"Ácido que provoca la reacción química"}
+],
+
+pasos:[
+"Colocar una cucharada de bicarbonato de sodio dentro del vaso.",
+"Agregar de 2 a 3 gotas de colorante sobre el bicarbonato (opcional).",
+"Verter lentamente entre 60 y 100 ml de vinagre dentro del vaso.",
+"Observar la efervescencia y formación de burbujas y espuma producida por la reacción química.",
+"La reacción ácido–base libera dióxido de carbono (CO₂), generando el efecto de volcán."
+]
+},
+17:{
+titulo:"Tinta invisible con limón",
+
+formula:[
+"Jugo de limón: 15–30 ml (1–2 cucharadas)",
+"Cantidad usada para escribir: mínima (punta de hisopo o pincel)"
+],
+
+materiales:[
+"1 limón o jugo de limón",
+"1 vaso pequeño",
+"1 hisopo, pincel o cotonete",
+"1 hoja de papel blanco",
+"Fuente de calor segura (lámpara, foco o plancha) con supervisión adulta"
+],
+
+sustancias:[
+{n:"Jugo de limón", d:"Actúa como tinta invisible; al calentarse se oxida y se vuelve visible"},
+{n:"Papel", d:"Superficie donde se escribe el mensaje"},
+{n:"Calor", d:"Provoca el oscurecimiento del jugo de limón"}
+],
+
+pasos:[
+"Exprimir el limón en un vaso pequeño.",
+"Mojar la punta del hisopo o pincel en el jugo de limón.",
+"Escribir un mensaje sobre la hoja de papel.",
+"Dejar secar completamente el papel durante 5 a 10 minutos.",
+"Con ayuda de un adulto, acercar el papel a una fuente de calor.",
+"Observar cómo el mensaje aparece lentamente."
+]
+},
+18:{
+titulo:"Batería hecha con limón",
+
+materiales:[
+"1 limón grande (si no enciende usar 2–3 limones)",
+"1 tira de magnesio de 3–5 cm por limón",
+"1 alambre de cobre de 3–5 cm",
+"2 pinzas de cocodrilo (una roja y una negra)",
+"1 bombilla LED"
+],
+
+sustancias:[
+{n:"Limón", d:"Contiene ácido cítrico que actúa como electrolito y permite el paso de la corriente"},
+{n:"Magnesio", d:"Funciona como ánodo, liberando electrones"},
+{n:"Cobre", d:"Funciona como cátodo, recibiendo electrones"}
+],
+
+pasos:[
+"Cortar el limón por la mitad con ayuda de un adulto.",
+"Introducir una tira de magnesio de 3 a 5 cm en la pulpa del limón.",
+"Insertar el alambre de cobre de 3 a 5 cm en la pulpa, separado del magnesio.",
+"Conectar la pinza roja al alambre de cobre.",
+"Conectar la pinza negra a la tira de magnesio.",
+"Unir las pinzas a los extremos de la bombilla LED.",
+"Observar cómo la bombilla se ilumina."
+]
+},
+19:{
+titulo:"Botella azul (Reacción Redox)",
+
+formula:[
+"Agua: 300 cc",
+"Glucosa: 10 g",
+"Hidróxido de sodio: 5 g",
+"Azul de metileno: 3 gotas"
+],
+
+materiales:[
+"Frasco de vidrio con tapa",
+"Guantes de protección",
+"Agitador o cucharilla"
+],
+
+sustancias:[
+{n:"Agua", d:"Actúa como solvente de todos los componentes"},
+{n:"Glucosa", d:"Agente reductor que provoca el cambio de color"},
+{n:"Hidróxido de sodio", d:"Crea un medio alcalino necesario para la reacción"},
+{n:"Azul de metileno", d:"Indicador redox que cambia de azul a incoloro"}
+],
+
+pasos:[
+"Verter el agua en el frasco de vidrio.",
+"Agregar la glucosa junto con el hidróxido de sodio y mezclar hasta disolver completamente.",
+"Añadir tres gotas de azul de metileno.",
+"Cerrar el frasco y observar el color azul inicial.",
+"Dejar reposar el frasco hasta que la solución se vuelva incolora.",
+"Agitar el frasco para que la solución vuelva a ponerse azul por la entrada de oxígeno.",
+"Repetir el proceso varias veces para observar el cambio de color."
+]
+},
+20:{
+titulo:"Lámpara de lava",
+
+formula:[
+"Agua: 80 cc",
+"Aceite vegetal: 240 cc",
+"Colorante alimentario: 5 gotas",
+"Pastilla efervescente: 1 unidad"
+],
+
+materiales:[
+"Botella transparente",
+"Embudo",
+"Aceite vegetal",
+"Agua",
+"Colorante alimentario",
+"Pastilla efervescente"
+],
+
+sustancias:[
+{n:"Agua", d:"Se mezcla con el colorante y permite que las burbujas suban y bajen"},
+{n:"Aceite vegetal", d:"Es menos denso que el agua, por eso permanecen separados"},
+{n:"Colorante alimentario", d:"Permite visualizar el movimiento del agua dentro del aceite"},
+{n:"Pastilla efervescente", d:"Libera gas que arrastra el agua creando el efecto de lava"}
+],
+
+pasos:[
+"Llenar aproximadamente un cuarto de la botella con agua.",
+"Agregar las gotas de colorante y mezclar suavemente.",
+"Verter el aceite vegetal hasta casi llenar la botella, dejando un pequeño espacio libre.",
+"Esperar unos segundos hasta que el agua y el aceite se separen completamente.",
+"Partir la pastilla efervescente en dos e introducir un pedazo en la botella.",
+"Observar cómo se forman burbujas que suben y bajan creando el efecto de lámpara de lava.",
+"Cuando termine la efervescencia, agregar otro pedazo para repetir el efecto."
+]
+},
+21:{
+  titulo:"Arcoíris químico",
+
+  formula:[
+    "Miel: 60 cc",
+    "Jabón líquido: 60 cc",
+    "Agua coloreada: 60 cc",
+    "Aceite vegetal: 60 cc",
+    "Alcohol coloreado: 60 cc"
+  ],
+
+  materiales:[
+    "Vaso transparente",
+    "Cuchara",
+    "Miel",
+    "Jabón líquido",
+    "Agua con colorante vegetal",
+    "Aceite vegetal",
+    "Alcohol con colorante vegetal"
+  ],
+
+  sustancias:[
+    {n:"Miel", d:"Es el líquido más denso y forma la capa inferior del arcoíris"},
+    {n:"Jabón líquido", d:"Posee una densidad intermedia que permite crear la segunda capa"},
+    {n:"Agua coloreada", d:"Aporta una capa adicional debido a su densidad"},
+    {n:"Aceite vegetal", d:"Es menos denso que el agua, por eso se ubica sobre ella"},
+    {n:"Alcohol coloreado", d:"Es el líquido más ligero y forma la capa superior"}
+  ],
+
+  pasos:[
+    "Vamos a colocar la miel en el fondo del vaso con cuidado para evitar que manche las paredes.",
+    "Luego, agregamos el jabón líquido dejándolo caer lentamente por la pared interna del vaso para que no se mezcle con la miel.",
+    "Como siguiente paso, vertemos el agua coloreada también por la pared del vaso y dejamos que forme su propia capa.",
+    "Posteriormente, añadimos el aceite vegetal con la misma técnica de vertido lento para mantener la separación entre capas.",
+    "Finalmente, agregamos el alcohol previamente coloreado, que se ubicará como la capa superior, formando así un arcoíris químico gracias a las diferencias de densidad entre las sustancias."
+  ]
+},
+22:{
+  titulo:"Volcán casero",
+
+  formula:[
+    "Bicarbonato: 2–3 cucharadas",
+    "Vinagre: suficiente para reacción",
+    "Colorante: opcional",
+    "Jabón: opcional"
+  ],
+
+  materiales:[
+    "Botella",
+    "Bandeja",
+    "Plastilina o arcilla",
+    "Cartón"
+  ],
+
+  sustancias:[
+    {n:"Bicarbonato", d:"Reacciona con el vinagre para producir efervescencia y simular la lava"},
+    {n:"Vinagre", d:"Ácido que reacciona con el bicarbonato generando dióxido de carbono"},
+    {n:"Colorante", d:"Opcional, da color a la 'lava' para mayor efecto visual"},
+    {n:"Jabón", d:"Opcional, produce burbujas y hace que la erupción sea más espumosa"}
+  ],
+
+  pasos:[
+    "Construye el volcán alrededor de la botella dejando libre el cráter.",
+    "Añade 2–3 cucharadas de bicarbonato dentro de la botella.",
+    "Agrega colorante y jabón si deseas una 'lava' más vistosa.",
+    "Vierte vinagre y observa la reacción que simula la erupción del volcán.",
+    "Limpia al finalizar la reacción."
+  ],
+
+  precauciones:[
+    "Realizar siempre sobre una bandeja.",
+    "Supervisar a niños.",
+    "No ingerir sustancias."
+  ]
+},
+23:{
+  titulo:"Leche mágica",
+
+  formula:[
+    "Leche: suficiente para cubrir el fondo del plato",
+    "Colorante: varias gotas de diferentes colores",
+    "Jabón: una gota por prueba"
+  ],
+
+  materiales:[
+    "Plato hondo",
+    "Gotero",
+    "Servilletas"
+  ],
+
+  sustancias:[
+    {n:"Leche", d:"Actúa como medio donde se moverán los colores"},
+    {n:"Colorante", d:"Da color y permite observar el efecto de mezcla"},
+    {n:"Jabón", d:"Reduce la tensión superficial de la leche y provoca el movimiento de los colores"}
+  ],
+
+  pasos:[
+    "Cubre el fondo del plato con leche.",
+    "Coloca gotas de colorante distribuidas en la superficie.",
+    "Añade una gota de jabón y observa el desplazamiento de los colores.",
+    "Repite utilizando otros colores si lo deseas."
+  ],
+
+  precauciones:[
+    "No consumir la mezcla.",
+    "Limpiar el área al finalizar."
+  ]
+},
+24:{
+  titulo:"Pasta de dientes de elefante",
+
+  formula:[
+    "Peróxido 3%: suficiente para llenar parte de la botella",
+    "Levadura: 1 cucharadita",
+    "Jabón: unas gotas",
+    "Agua tibia: suficiente para activar la levadura",
+    "Colorante: opcional, varias gotas"
+  ],
+
+  materiales:[
+    "Botella",
+    "Vaso",
+    "Bandeja",
+    "Guantes y gafas de protección"
+  ],
+
+  sustancias:[
+    {n:"Peróxido 3%", d:"Se descompone liberando oxígeno, produciendo la espuma"},
+    {n:"Levadura", d:"Activa la descomposición del peróxido, acelerando la reacción"},
+    {n:"Jabón", d:"Atrapa el oxígeno generado, formando espuma abundante"},
+    {n:"Agua tibia", d:"Activa la levadura para que la reacción sea más rápida"},
+    {n:"Colorante", d:"Opcional, da color a la espuma para un efecto visual llamativo"}
+  ],
+
+  pasos:[
+    "Mezcla la levadura con agua tibia en un vaso y déjala reposar unos minutos.",
+    "En la botella coloca peróxido, jabón y colorante si deseas.",
+    "Añade la mezcla de levadura a la botella y aléjate.",
+    "Observa la rápida formación de espuma que simula pasta de dientes gigante."
+  ],
+
+  precauciones:[
+    "Usar guantes y gafas de protección.",
+    "Ventilar el área donde se realiza el experimento."
+  ]
+},
+25:{
+  titulo:"Cristales de sal",
+
+  formula:[
+    "Sal de mesa: 60 g (aprox. 4 cucharadas)",
+    "Agua caliente: 200 ml (1 taza)"
+  ],
+
+  materiales:[
+    "Vaso o frasco de vidrio transparente",
+    "Cuchara",
+    "Hilo de algodón",
+    "Palito de madera o lápiz",
+    "Papel para tapar"
+  ],
+
+  sustancias:[
+    {n:"Sal de mesa", d:"Se disuelve en el agua caliente y luego forma cristales al evaporarse el líquido"},
+    {n:"Agua caliente", d:"Disuelve la sal y permite que se formen los cristales al enfriarse y evaporarse"}
+  ],
+
+  pasos:[
+    "Calienta el agua sin que hierva demasiado.",
+    "Agrega la sal poco a poco mientras mezclas hasta que ya no se disuelva más.",
+    "Vierte la solución en el vaso o frasco transparente.",
+    "Ata el hilo al palito y colócalo dentro del vaso sin que toque el fondo.",
+    "Tapa el vaso con papel y déjalo reposar de 24 a 72 horas hasta que se formen los cristales."
+  ],
+
+  precauciones:[
+    "Manipular con cuidado el agua caliente para evitar quemaduras.",
+    "No ingerir la solución."
+  ]
+},
+26:{
+  titulo:"Agua que camina",
+
+  formula:[
+    "Agua: 300 ml (100 ml por vaso)",
+    "Colorante alimentario: 3–5 gotas por vaso (rojo, azul y amarillo)",
+    "Toallas de papel: 3 tiras de 5 × 20 cm"
+  ],
+
+  materiales:[
+    "3 vasos transparentes vacíos",
+    "2 vasos adicionales (total 5 vasos)",
+    "Toallas de papel",
+    "Cucharita"
+  ],
+
+  sustancias:[
+    {n:"Agua", d:"Es el líquido que “camina” de un vaso a otro mediante capilaridad"},
+    {n:"Colorante", d:"Permite visualizar el movimiento del agua y la mezcla de colores"},
+    {n:"Vasos", d:"Contienen el agua y permiten observar el experimento"},
+    {n:"Toallas de papel", d:"Funcionan como 'caminos' por donde el agua se mueve"}
+  ],
+
+  pasos:[
+    "Coloca los 5 vasos en fila.",
+    "Llena los vasos 1, 3 y 5 con 100 ml de agua cada uno.",
+    "Agrega colorante: vaso 1 → rojo, vaso 3 → azul, vaso 5 → amarillo.",
+    "Dobla las toallas de papel y colócalas para que unan los vasos: una entre el vaso 1 y 2, otra entre el vaso 2 y 3, otra entre el vaso 3 y 4, y otra entre el vaso 4 y 5.",
+    "Espera varias horas y observa cómo el agua se mueve de un vaso a otro y se mezclan los colores."
+  ],
+
+  precauciones:[
+    "Evitar derrames colocando los vasos sobre una superficie plana.",
+    "No ingerir el agua con colorante."
+  ]
+}
+};
+
+
+const id=new URLSearchParams(location.search).get("id")||1;
+const exp=experimentos[id];
+
+document.getElementById("titulo").textContent=exp.titulo;
+
+
+if(exp.formula){
+document.getElementById("formulaBox").innerHTML="<h3>Fórmula</h3><ul>"+exp.formula.map(i=>`<li>${i}</li>`).join("")+"</ul>";
+}else document.getElementById("formulaBox").style.display="none";
+
+if(exp.materiales){
+document.getElementById("materialesBox").innerHTML="<h3>Materiales</h3><ul>"+exp.materiales.map(i=>`<li>${i}</li>`).join("")+"</ul>";
+}else document.getElementById("materialesBox").style.display="none";
+
+if(exp.sustancias){
+document.getElementById("sustanciasBox").innerHTML="<h3>Sustancias</h3><ul>"+exp.sustancias.map(s=>`<li><b>${s.n}:</b> ${s.d}</li>`).join("")+"</ul>";
+}else document.getElementById("sustanciasBox").style.display="none";
+if(exp.precauciones){
+document.getElementById("pasosBox").innerHTML =
+"<div class='card'><h3>⚠️ Precauciones</h3><ul>"+exp.precauciones.map(p=>`<li>${p}</li>`).join("")+"</ul></div>" + document.getElementById("pasosBox").innerHTML;
+}
+
+
+exp.pasos.forEach(p=>{
+document.getElementById("pasosBox").innerHTML+=`
+<div class="step">• ${p}</div>`;
+});
+</script>
+
+</body>
+</html>
